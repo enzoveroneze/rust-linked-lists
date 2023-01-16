@@ -45,9 +45,9 @@ impl<T> Drop for List<T> {
 
 #[cfg(test)]
 mod test {
+    use super::List;
     #[test]
     fn basics() {
-        use super::List;
         let mut list = List::new();
         assert_eq!(list.pop(), None);
         list.push(1);
@@ -61,5 +61,18 @@ mod test {
         assert_eq!(list.pop(), Some(4));
         assert_eq!(list.pop(), Some(1));
         assert_eq!(list.pop(), None);
+    }
+    #[test]
+    fn peek() {
+        let mut list = List::new();
+        assert_eq!(list.peek(), None);
+        assert_eq!(list.peek_mut(), None);
+        list.push(1);
+        list.push(2);
+        list.push(3);
+        assert_eq!(list.peek(), Some(&3));
+        assert_eq!(list.peek_mut(), Some(&mut 3));
+        list.peek_mut().map(|n| *n = 42);
+        assert_eq!(list.peek(), Some(&42));
     }
 }
